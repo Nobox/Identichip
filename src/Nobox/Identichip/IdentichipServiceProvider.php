@@ -28,7 +28,16 @@ class IdentichipServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        //
+        $this->app['identichip'] = $this->app->share(function($app)
+        {
+            return new Identichip;
+        });
+
+        $this->app->booting(function()
+        {
+          $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+          $loader->alias('Identichip', 'Nobox\Identichip\Facades\Identichip');
+        });
     }
 
     /**
@@ -38,7 +47,7 @@ class IdentichipServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array();
+        return array('identichip');
     }
 
 }
