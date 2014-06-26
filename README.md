@@ -6,6 +6,8 @@ A Laravel Package for login/registration. Using email and other services.
 
 ##### Setup
 
+(Install a git-less lightsaber in your homestead, mine is called lightsaber.app)
+
 1. Inside your Lightsaber root  create the following structure : 
 
 `workbench/nobox/identichip/`
