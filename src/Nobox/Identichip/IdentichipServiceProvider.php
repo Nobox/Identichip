@@ -19,6 +19,7 @@ class IdentichipServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->package('nobox/identichip');
+        include __DIR__.'/../../routes.php';
     }
 
     /**
