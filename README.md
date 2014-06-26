@@ -12,7 +12,7 @@ A Laravel Package for login/registration. Using email and other services.
 
 2. Clone this repo inside the the folder identichip you just created. 
 3. Change the scope to the identichip folder, and run `composer install`
-4. Register to your lightsaber `app/config/app.php` in the providers array: `Nobox\Identichip\IdentichipServiceProvider`
+4. Register this service provider to your lightsaber `app/config/app.php` to do this, just add to the providers array this line: `Nobox\Identichip\IdentichipServiceProvider`
 
 Now you are good to go, and use/edit the class Identichip : 
 
