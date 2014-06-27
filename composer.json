@@ -18,7 +18,10 @@
     },
     "autoload": {
         "classmap": [
-            "src/migrations"
+            "src/migrations",
+            "src/controllers",
+            "src/config",
+            "src/views"
         ],
         "psr-0": {
             "Nobox\\Identichip\\": "src/"

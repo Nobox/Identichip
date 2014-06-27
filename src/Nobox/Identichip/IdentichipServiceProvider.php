@@ -20,6 +20,9 @@ class IdentichipServiceProvider extends ServiceProvider {
     {
         $this->package('nobox/identichip');
         include __DIR__.'/../../routes.php';
+
+        //loads artdarek oauth config into app config
+        $this->app['config']['oauth-4-laravel'] = \Config::get('identichip::oauth-4-laravel');
     }
 
     /**
@@ -34,11 +37,13 @@ class IdentichipServiceProvider extends ServiceProvider {
             return new Identichip;
         });
 
+
         $this->app->booting(function()
         {
           $loader = \Illuminate\Foundation\AliasLoader::getInstance();
           $loader->alias('Identichip', 'Nobox\Identichip\Facades\Identichip');
         });
+
     }
 
     /**
