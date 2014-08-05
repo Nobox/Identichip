@@ -9,6 +9,11 @@ class Identichip{
         // return "May the force be with you";
     }
 
+
+    /*Facebook Login/Registration Implementation
+    /*this uses Oauth Library
+    */
+
     public function loginWithFacebook() {
 
         // get data from input
@@ -44,4 +49,8 @@ class Identichip{
         }
 
     }
+
+    /* I need to add user registered by service, to the DB, */
+    // I need to search user in the DB to login
+
 }
