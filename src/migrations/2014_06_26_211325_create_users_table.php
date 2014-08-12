@@ -22,7 +22,6 @@ class CreateUsersTable extends Migration {
             $table->string('remember_token')->nullable();
 
 
-            $table->primary('id');
             $table->timestamps();
         });
     }
