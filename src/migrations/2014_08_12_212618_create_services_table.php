@@ -12,7 +12,7 @@ class CreateServicesTable extends Migration {
      */
     public function up()
     {
-        Schema::create('users', function($table)
+        Schema::create('services', function($table)
         {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
