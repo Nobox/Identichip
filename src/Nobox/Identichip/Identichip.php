@@ -9,7 +9,6 @@ class Identichip{
         // return "May the force be with you";
     }
 
-
     /*Facebook Login/Registration Implementation
     /*this uses Oauth Library
     */
@@ -20,7 +19,6 @@ class Identichip{
         $code = \Input::get( 'code' );
         // get fb service
         $fb = \OAuth::consumer( 'Facebook' );
-
         // check if code is valid
 
         // if code is provided get user data and sign in
