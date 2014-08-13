@@ -1,12 +1,38 @@
-<?php namespace Nobox\Identichip;
+<?php
+
+namespace Nobox\Identichip;
+
+use \Config;
+use \Input;
 
 
 class Identichip{
 
-    public static function holoGreetings()
+    /**
+     * Perform user registration into DB
+     * @param array $newUser from user registration form
+     * @return mixed values : true if all good | object errors
+     */
+    public static function register($newUser)
     {
-        return \Response::json(\Config::get('identichip::oauth-4-laravel'));
-        // return "May the force be with you";
+        $user = User();
+        $user->email = $newUser['email'];
+        $user->first_name = $newUser['first_name'];
+        $user->last_name = $newUser['last_name'];
+
+        //check if password is null
+        //password is not needed for some
+        if(isset($newUser['password'])){
+            $user->password = \Hash::make($newUser['password']);
+        }
+
+        if(!$user->isValid())
+            return \Redirect::back()->withInput()->withErrors($user->errors);
+
+
+        $user->save();
+
+        return true;
     }
 
     /*Facebook Login/Registration Implementation
