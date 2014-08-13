@@ -4,7 +4,7 @@ namespace Nobox\Identichip;
 
 use \Config;
 use \Input;
-
+use Nobox\Identichip\Models\User as User;
 
 class Identichip{
 
@@ -15,7 +15,7 @@ class Identichip{
      */
     public static function register($newUser)
     {
-        $user = User();
+        $user = new User();
         $user->email = $newUser['email'];
         $user->first_name = $newUser['first_name'];
         $user->last_name = $newUser['last_name'];
@@ -27,7 +27,7 @@ class Identichip{
         }
 
         if(!$user->isValid())
-            return \Redirect::back()->withInput()->withErrors($user->errors);
+            return $user->errors;
 
 
         $user->save();
