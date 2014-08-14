@@ -4,6 +4,11 @@ namespace Nobox\Identichip;
 
 use \Config;
 use \Input;
+use \Auth;
+use \Hash;
+use \Oauth;
+use \Redirect;
+
 use Nobox\Identichip\Models\User as User;
 
 class Identichip{
@@ -23,7 +28,7 @@ class Identichip{
         //check if password is null
         //password is not needed for some
         if(isset($newUser['password'])){
-            $user->password = \Hash::make($newUser['password']);
+            $user->password = Hash::make($newUser['password']);
         }
 
         if(!$user->isValid())
@@ -33,6 +38,17 @@ class Identichip{
         $user->save();
 
         return true;
+    }
+
+    public function login($credentials)
+    {
+
+        if (Auth::attempt(array('email' => $credentials['username'], 'password' => $credentials['password']))){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /*Facebook Login/Registration Implementation
