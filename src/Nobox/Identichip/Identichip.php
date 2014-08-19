@@ -6,10 +6,12 @@ use \Config;
 use \Input;
 use \Auth;
 use \Hash;
-use \Oauth;
 use \Redirect;
+use \Session;
 
-use Nobox\Identichip\Models\User as User;
+use Artdarek\OAuth\OAuth;
+use User;
+use Nobox\Identichip\Models\Service as Service;
 
 class Identichip{
 
@@ -37,6 +39,8 @@ class Identichip{
 
         $user->save();
 
+        Auth::login($user);
+
         return true;
     }
 
@@ -55,42 +59,87 @@ class Identichip{
     /*this uses Oauth Library
     */
 
-    public function loginWithFacebook() {
+    public function facebookLogin($redirect)
+    {
+
+        $OAuth = new OAuth;
 
         // get data from input
-        $code = \Input::get( 'code' );
+        $code = Input::get( 'code' );
         // get fb service
-        $fb = \OAuth::consumer( 'Facebook' );
+        $fb =  $OAuth->consumer( 'Facebook');
         // check if code is valid
+
+        $service = array();
 
         // if code is provided get user data and sign in
         if ( !empty( $code ) || !is_null($code)) {
+
             // This was a callback request from facebook, get the token
             $token = $fb->requestAccessToken( $code );
-
-            // Send a request with it
             $result = json_decode( $fb->request( '/me' ), true );
 
-            $message = 'Your unique facebook user id is: ' . $result['id'] . ' and your name is ' . $result['name'];
-            echo $message. "<br/>";
-
-            //Var_dump
-            //display whole array().
-            dd($result);
-
+            $data = array(
+                    'service_id'    => $result['id'],
+                    'name'          => 'facebook',
+                    'first_name'    => $result['first_name'],
+                    'last_name'     => $result['last_name'],
+                    'email'         => $result['email'],
+            );
+            Session::put('service_info', $data);
+            return Redirect::to($redirect);
         }
         // if not ask for permission first
         else {
             // get fb authorization
             $url = $fb->getAuthorizationUri();
-
             // return to facebook login url
-            return \Redirect::to( (string)$url );
+            return Redirect::to( (string)$url );
         }
 
     }
 
-    /* I need to add user registered by service, to the DB, */
-    // I need to search user in the DB to login
+    /*Get Facebook User information
+    /*this uses Oauth Library
+    */
+
+    public function getFacebookUser()
+    {
+        $OAuth = new OAuth;
+        // get data from input
+        $code = Input::get( 'code' );
+        $fb =  $OAuth->consumer( 'Facebook');
+
+        // This was a callback request from facebook, get the token
+        $token = $fb->requestAccessToken( $code );
+
+        // Send a request with it
+        $result = json_decode( $fb->request( '/me' ), true );
+
+        $facebook_user = array(
+            'fbid'          => $result['id'],
+            'first_name'    => $result['first_name'],
+            'last_name'     => $result['last_name'],
+            'email'         => $result['email'],
+        );
+
+        return $facebook_user;
+    }
+
+
+
+    public function registerService($id, $name)
+    {
+        $service = new Service;
+        $service->service_id = $id;
+        $service->name = $name;
+
+        $user = User::find(Auth::user()->id);
+
+        //return $user->services();
+        $user->services()->save($service);
+
+        return true;
+    }
 
 }
