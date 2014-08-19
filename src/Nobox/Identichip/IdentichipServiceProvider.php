@@ -42,6 +42,9 @@ class IdentichipServiceProvider extends ServiceProvider {
         {
           $loader = \Illuminate\Foundation\AliasLoader::getInstance();
           $loader->alias('Identichip', 'Nobox\Identichip\Facades\Identichip');
+          $loader->alias('OAuth','Artdarek\OAuth\Facade\OAuth');
+          $loader->alias('User','Nobox\Identichip\Models\User');
+          $loader->alias('Service', 'Nobox\Identichip\Models\Service');
         });
 
     }
