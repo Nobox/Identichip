@@ -75,7 +75,6 @@ class Identichip{
         // if code is provided get user data and sign in
         if ( !empty( $code ) || !is_null($code)) {
 
-            // This was a callback request from facebook, get the token
             $token = $fb->requestAccessToken( $code );
             $result = json_decode( $fb->request( '/me' ), true );
 
