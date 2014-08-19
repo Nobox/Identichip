@@ -5,10 +5,6 @@
         {
             "name": "Alberto Estrada",
             "email": "alberto@nobox.com"
-        },
-        {
-            "name": "Antonio Rodriguez",
-            "email": "antonio@nobox.com"
         }
     ],
     "require": {
