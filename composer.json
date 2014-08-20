@@ -5,6 +5,18 @@
         {
             "name": "Alberto Estrada",
             "email": "alberto@nobox.com"
+        },
+        {
+            "name": "Antonio Rodriguez",
+            "email": "antonio@nobox.com"
+        },
+        {
+            "name": "Jonathan Torres",
+            "email": "jonathan@nobox.com"
+        },
+        {
+            "name": "Waldemar Figueroa",
+            "email": "waldemar@nobox.com"
         }
     ],
     "require": {
