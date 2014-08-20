@@ -15,11 +15,14 @@ use Nobox\Identichip\Models\Service as Service;
 
 class Identichip{
 
-    /**
-     * Perform user registration into DB
-     * @param array $newUser from user registration form
-     * @return mixed values : true if all good | object errors
-     */
+    
+
+
+   /**
+    * Perform user registration into DB
+    * @param array $newUser from user registration form
+    * @return mixed values : true if all good | object errors
+    */
     public static function register($newUser)
     {
         $user = new User();
@@ -31,6 +34,9 @@ class Identichip{
         //password is not needed for some
         if(isset($newUser['password'])){
             $user->password = Hash::make($newUser['password']);
+        }
+        else{
+            $user->password = Hash::make($newUser['email']);
         }
 
         if(!$user->isValid())
@@ -44,10 +50,17 @@ class Identichip{
         return true;
     }
 
+
+   /**
+    *  Simple Login implementation
+    *  this just uses laravel Auth system.
+    *  @param array $credentials , contains email/password
+    *  @return boolean
+    */
     public function login($credentials)
     {
 
-        if (Auth::attempt(array('email' => $credentials['username'], 'password' => $credentials['password']))){
+        if (Auth::attempt($credentials)){
             return true;
         }
         else{
@@ -55,11 +68,11 @@ class Identichip{
         }
     }
 
-    /*Facebook Login/Registration Implementation
-    /*this uses Oauth Library
+   /**
+    *   Facebook Login/Registration Implementation
+    *   this uses Oauth Library
     */
-
-    public function facebookLogin($redirect)
+    public function facebookLogin($redirect = '')
     {
 
         $OAuth = new OAuth;
@@ -67,9 +80,8 @@ class Identichip{
         // get data from input
         $code = Input::get( 'code' );
         // get fb service
-        $fb =  $OAuth->consumer( 'Facebook');
+        $fb =  $OAuth->consumer('Facebook');
         // check if code is valid
-
         $service = array();
 
         // if code is provided get user data and sign in
@@ -98,35 +110,29 @@ class Identichip{
 
     }
 
-    /*Get Facebook User information
-    /*this uses Oauth Library
+
+   /**
+    *   Use a registered service to auth the
+    *   registered user
     */
-
-    public function getFacebookUser()
+    public function loginWithService($service_id)
     {
-        $OAuth = new OAuth;
-        // get data from input
-        $code = Input::get( 'code' );
-        $fb =  $OAuth->consumer( 'Facebook');
+        $service = Service::where('service_id', $service_id)->first();
 
-        // This was a callback request from facebook, get the token
-        $token = $fb->requestAccessToken( $code );
+        if($service){
+            $user = $service->user()->first();
+            return $this->login(array('email'=> $user->email, 'password' => $service_id));
+        }
 
-        // Send a request with it
-        $result = json_decode( $fb->request( '/me' ), true );
 
-        $facebook_user = array(
-            'fbid'          => $result['id'],
-            'first_name'    => $result['first_name'],
-            'last_name'     => $result['last_name'],
-            'email'         => $result['email'],
-        );
-
-        return $facebook_user;
+        return false;
     }
 
 
-
+   /**
+    *   Save service associated with the
+    *   registered user
+    */
     public function registerService($id, $name)
     {
         $service = new Service;
@@ -135,7 +141,6 @@ class Identichip{
 
         $user = User::find(Auth::user()->id);
 
-        //return $user->services();
         $user->services()->save($service);
 
         return true;
