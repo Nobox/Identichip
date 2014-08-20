@@ -1,6 +1,6 @@
 {
     "name": "nobox/identichip",
-    "description": "",
+    "description": "A Laravel Package for login/registration. Using email and other services.",
     "authors": [
         {
             "name": "Alberto Estrada",
