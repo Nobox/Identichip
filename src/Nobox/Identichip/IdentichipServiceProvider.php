@@ -42,7 +42,6 @@ class IdentichipServiceProvider extends ServiceProvider {
           $loader->alias('Identichip', 'Nobox\Identichip\Facades\Identichip');
           $loader->alias('User','Nobox\Identichip\Models\User');
           $loader->alias('Service', 'Nobox\Identichip\Models\Service');
-          $loader->alias('Facebook', 'Nobox\Identichip\Services\Facebook');
         });
 
     }
