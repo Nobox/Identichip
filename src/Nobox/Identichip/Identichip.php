@@ -13,6 +13,7 @@ use \Request;
 use User;
 use Nobox\Identichip\Models\Service as Service;
 use Nobox\Identichip\Services\Facebook as Facebook;
+use Nobox\Identichip\Services\Twitter as Twitter;
 
 class Identichip{
 
@@ -107,6 +108,35 @@ class Identichip{
             return $facebook->getAuthURL($current_url);
         }
 
+
+    }
+
+
+    public function twitterLogin($redirect)
+    {
+        $twitter = new Twitter;
+        $current_url = Request::url();
+
+        $token = Session::pull('token');
+        $secret = Session::pull('secret');
+        $verifier = Input::get('oauth_verifier');
+        if(isset($token)){
+            $twitter->getUser($token, $secret, $verifier);
+            $result = $twitter->doTwitterRequest('get', 'account/verify_credentials');
+            $data = array(
+                    'service_id'    => $result->id,
+                    'name'          => 'twitter',
+                    'first_name'    => $result->name,
+                    'last_name'     => '',
+                    'email'         => '',
+            );
+
+            Session::put('service_info', $data);
+            return Redirect::to($redirect);
+        }
+        else{
+            return $twitter->getAuthURL($current_url);
+        }
 
     }
 
