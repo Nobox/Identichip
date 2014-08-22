@@ -2,6 +2,7 @@
 
 namespace Nobox\Identichip;
 
+
 use \Config;
 use \Input;
 use \Auth;
@@ -14,6 +15,8 @@ use User;
 use Nobox\Identichip\Models\Service as Service;
 use Nobox\Identichip\Services\Facebook as Facebook;
 use Nobox\Identichip\Services\Twitter as Twitter;
+use Nobox\Identichip\Services\Google as Google;
+
 
 class Identichip{
 
@@ -141,13 +144,76 @@ class Identichip{
     }
 
 
+
+    public function googleLogin()
+    {
+        $current_url = Request::url();
+
+        $google = new Google;
+
+        $google->client->setRedirectUri($current_url);
+        $google->setService();
+
+
+        // google session token for configuration
+        $token = Session::get('google_token');
+
+        // received if the auth callback is positive
+        $code = Input::get('code');
+
+        if(isset($code)){
+            $google->client->authenticate($code);
+            Session::put('google_token', $google->client->getAccessToken());
+
+        }
+
+        if(isset($token))
+        {
+            $google->client->setAccessToken($token);
+        }
+
+
+        if($google->client->getAccessToken()){
+
+            if($google->client->isAccessTokenExpired()){
+
+                $google->client->authenticate($code);
+                $NewAccessToken = json_decode($google->client->getAccessToken());
+                $google->client->refreshToken($NewAccessToken->refresh_token);
+
+
+            }
+            $result = $google->getUser();
+            $data = array(
+                    'service_id'    => intval($result->id),
+                    'name'          => 'google',
+                    'first_name'    => $result->givenName,
+                    'last_name'     => $result->familyName,
+                    'email'         => $result->email,
+            );
+
+            Session::put('service_info', $data);
+            $redirect = Session::pull('service_return_url');
+            return Redirect::to((string)$redirect);
+
+        }
+        else{
+            return $google->getAuthURL();
+        }
+
+    }
+
+
+
    /**
     *   Use a registered service to auth the
     *   registered user
     */
     public function loginWithService($service_id)
     {
+        echo $service_id;
         $service = Service::where('service_id', $service_id)->first();
+
 
         if($service){
             $user = $service->user()->first();
