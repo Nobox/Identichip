@@ -23,8 +23,8 @@
         "php": ">=5.4.0",
         "illuminate/support": "4.2.*",
         "facebook/php-sdk-v4" : "4.0.*",
-        "kertz/twitteroauth": "dev-master"
-
+        "kertz/twitteroauth": "dev-master",
+        "google/apiclient": "1.0.*@beta"
     },
     "autoload": {
         "classmap": [
@@ -37,5 +37,5 @@
             "Nobox\\Identichip\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
