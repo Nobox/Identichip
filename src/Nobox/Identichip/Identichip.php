@@ -8,14 +8,15 @@ use \Auth;
 use \Hash;
 use \Redirect;
 use \Session;
+use \Request;
 
-use Artdarek\OAuth\OAuth;
 use User;
 use Nobox\Identichip\Models\Service as Service;
+use Nobox\Identichip\Services\Facebook as Facebook;
 
 class Identichip{
 
-    
+
 
 
    /**
@@ -68,45 +69,44 @@ class Identichip{
         }
     }
 
+    /*****              ****\
+    *                       *
+    *   SERVICES FUNCTIONS  *
+    *                       *
+    ******              ****/
+
+
+
    /**
     *   Facebook Login/Registration Implementation
-    *   this uses Oauth Library
+    *   This uses Facebook PHP SDK Class Wrapper
+    *   @param string $redirect containing the redirect url.
+    *   @return Redirect request
     */
-    public function facebookLogin($redirect = '')
+    public function facebookLogin($redirect)
     {
+        $current_url = Request::url();
+        $facebook = new Facebook;
 
-        $OAuth = new OAuth;
+        $session = $facebook->facebokLoginHelper($current_url);
 
-        // get data from input
-        $code = Input::get( 'code' );
-        // get fb service
-        $fb =  $OAuth->consumer('Facebook');
-        // check if code is valid
-        $service = array();
-
-        // if code is provided get user data and sign in
-        if ( !empty( $code ) || !is_null($code)) {
-
-            $token = $fb->requestAccessToken( $code );
-            $result = json_decode( $fb->request( '/me' ), true );
-
+        if ($session) {
+            $result = $facebook->doFacebookRequest($session, 'GET', '/me');
             $data = array(
-                    'service_id'    => $result['id'],
+                    'service_id'    => $result->getId(),
                     'name'          => 'facebook',
-                    'first_name'    => $result['first_name'],
-                    'last_name'     => $result['last_name'],
-                    'email'         => $result['email'],
+                    'first_name'    => $result->getFirstName(),
+                    'last_name'     => $result->getLastName(),
+                    'email'         => $result->getProperty('email'),
             );
+
             Session::put('service_info', $data);
             return Redirect::to($redirect);
         }
-        // if not ask for permission first
-        else {
-            // get fb authorization
-            $url = $fb->getAuthorizationUri();
-            // return to facebook login url
-            return Redirect::to( (string)$url );
+        else{
+            return $facebook->getAuthURL($current_url);
         }
+
 
     }
 
