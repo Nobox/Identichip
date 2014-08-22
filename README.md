@@ -8,21 +8,16 @@ A Laravel Package for login/registration. Using email and other services.
 
 This package is under development
 
-
+#### Requirements
+Laravel 4.2.*
+php >=5.4.0
 
 ##### Preinstalled
-This package uses a OAuth wrapper for laravel 4 from Artdarek:
-https://github.com/artdarek/oauth-4-laravel
+    "facebook/php-sdk-v4" : "4.0.*",
+    "kertz/twitteroauth": "dev-master",
+    "google/apiclient": "1.0.*@beta"
 
 
 ##### Setup
 
-
-1. Inside your Laravel root  create the following structure :
-
-`workbench/nobox/identichip/`
-
-2. Clone this repo inside the the folder identichip you just created.
-3. Change the scope to the identichip folder, and run `composer install`
-4. Register this service provider to your lightsaber `app/config/app.php` to do this, just add to the providers array this line: `Nobox\Identichip\IdentichipServiceProvider`
-5. Run migrations :    `php artisan migrate --bench="nobox/identichip"`
+To be specified. 
