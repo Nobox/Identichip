@@ -23,20 +23,20 @@ class Facebook {
 
     public function __construct()
     {
-        $config = Config::get('identichip::consumers.Facebook');
+        $this->config = Config::get('identichip::consumers.Facebook');
 
         FacebookSession::setDefaultApplication(
-            $config['client_id'],
-            $config['client_secret']
+            $this->config['client_id'],
+            $this->config['client_secret']
         );
 
     }
 
-    
+
     public function getAuthURL($redirect_url)
     {
         $helper = new FacebookRedirectLoginHelper($redirect_url);
-        $loginUrl = $helper->getLoginUrl();
+        $loginUrl = $helper->getLoginUrl($this->config['scope']);
 
         return Redirect::to((string)$loginUrl);
     }
