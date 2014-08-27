@@ -39,5 +39,5 @@
             "Nobox\\Identichip\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
