@@ -39,7 +39,7 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
 
         if($validation->passes()) return true;
 
-        $this->errors  = $validation->messages()->toArray();
+        $this->errors  = $validation->messages();
         return false;
     }
 
