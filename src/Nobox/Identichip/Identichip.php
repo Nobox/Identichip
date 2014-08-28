@@ -21,7 +21,7 @@ use Nobox\Identichip\Services\Google as Google;
 class Identichip{
 
 
-
+    public static $errors;
 
    /**
     * Perform user registration into DB
@@ -45,7 +45,11 @@ class Identichip{
         }
 
         if(!$user->isValid())
-            return $user->errors;
+        {
+            self::$errors = $user->errors;
+            return false;
+        }
+
 
 
         $user->save();
@@ -55,6 +59,11 @@ class Identichip{
         return true;
     }
 
+
+    public static function getErrors()
+    {
+        return self::$errors;
+    }
 
    /**
     *  Simple Login implementation
