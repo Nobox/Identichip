@@ -113,9 +113,7 @@ class Identichip{
                     'email'         => $result->getProperty('email'),
             );
 
-            $picture = $facebook->doFacebookRequest($session, 'GET', '/me/picture');
-
-            $data['avatar'] = $picture->url;
+            $data['avatar'] = '//graph.facebook.com'.$data['service_id'].'/picture';
 
             Session::put('service_info', $data);
             return Redirect::to($redirect);
