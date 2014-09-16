@@ -114,9 +114,9 @@ class Identichip{
                     'email'         => $result->getProperty('email'),
             );
 
-            $picture = $facebook->doFacebookRequest($session, 'GET', '/me/picture');
-
-            $data['avatar'] = $picture->getProperty('url');
+            // $picture = $facebook->doFacebookRequest($session, 'GET', '/me/picture');
+            //
+            // $data['avatar'] = $picture->getProperty('url');
 
             Session::put('service_info', $data);
             return Redirect::to($redirect);
@@ -153,7 +153,7 @@ class Identichip{
                     'first_name'    => $result->name,
                     'last_name'     => '',
                     'email'         => '',
-                    'avatar'        => $avatar
+                    // 'avatar'        => $avatar
             );
 
             Session::put('service_info', $data);
@@ -212,7 +212,7 @@ class Identichip{
                     'first_name'    => $result->givenName,
                     'last_name'     => $result->familyName,
                     'email'         => $result->email,
-                    'avatar'        => $result->picture,
+                    // 'avatar'        => $result->picture,
             );
 
             Session::put('service_info', $data);
