@@ -34,7 +34,6 @@ class Identichip{
         $user->email = $newUser['email'];
         $user->first_name = $newUser['first_name'];
         $user->last_name = $newUser['last_name'];
-        $user->avatar = $newUser['avatar'];
 
         //check if password is null
         //password is not needed for some
