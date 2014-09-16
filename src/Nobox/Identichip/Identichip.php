@@ -153,7 +153,7 @@ class Identichip{
                     'first_name'    => $result->name,
                     'last_name'     => '',
                     'email'         => '',
-                    'avatar'        => $result->profile_image_url_https
+                    'avatar'        => $avatar
             );
 
             Session::put('service_info', $data);
