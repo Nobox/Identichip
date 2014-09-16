@@ -34,6 +34,7 @@ class Identichip{
         $user->email = $newUser['email'];
         $user->first_name = $newUser['first_name'];
         $user->last_name = $newUser['last_name'];
+        $user->avatar = $newUser['avatar'];
 
         //check if password is null
         //password is not needed for some
@@ -113,6 +114,10 @@ class Identichip{
                     'email'         => $result->getProperty('email'),
             );
 
+            $picture = $facebook->doFacebookRequest($session, 'GET', '/me/picture');
+
+            $data['avatar'] = $picture->getProperty('url');
+
             Session::put('service_info', $data);
             return Redirect::to($redirect);
         }
@@ -135,12 +140,20 @@ class Identichip{
         if(isset($token)){
             $twitter->getUser($token, $secret, $verifier);
             $result = $twitter->doTwitterRequest('get', 'account/verify_credentials');
+
+            if(Request::secure()){
+                $avatar = $result->profile_image_url_https;
+            }
+            else{
+                $avatar = $result->profile_image_url;
+            }
             $data = array(
                     'service_id'    => $result->id,
                     'name'          => 'twitter',
                     'first_name'    => $result->name,
                     'last_name'     => '',
                     'email'         => '',
+                    'avatar'        => $result->profile_image_url_https
             );
 
             Session::put('service_info', $data);
@@ -199,6 +212,7 @@ class Identichip{
                     'first_name'    => $result->givenName,
                     'last_name'     => $result->familyName,
                     'email'         => $result->email,
+                    'avatar'        => $result->picture,
             );
 
             Session::put('service_info', $data);
