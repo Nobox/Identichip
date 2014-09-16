@@ -115,7 +115,7 @@ class Identichip{
 
             $picture = $facebook->doFacebookRequest($session, 'GET', '/me/picture');
 
-            $data['avatar'] = $picture->getProperty('url');
+            $data['avatar'] = $picture->url;
 
             Session::put('service_info', $data);
             return Redirect::to($redirect);
