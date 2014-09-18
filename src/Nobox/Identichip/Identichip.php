@@ -96,12 +96,12 @@ class Identichip{
     *   @param string $redirect containing the redirect url.
     *   @return Redirect request
     */
-    public function facebookLogin($redirect)
+    public function facebookLogin($redirect, $canvas = false)
     {
         $current_url = Request::url();
         $facebook = new Facebook;
 
-        $session = $facebook->facebokLoginHelper($current_url);
+        $session = $facebook->facebokLoginHelper($current_url, $canvas);
 
         if ($session) {
             $result = $facebook->doFacebookRequest($session, 'GET', '/me');
