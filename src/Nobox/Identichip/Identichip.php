@@ -229,10 +229,11 @@ class Identichip{
 
         $instagram = new Instagram;
 
-        if(Session::has('instagram_access_token')){
-            $user = $instagram->getUser();
+        if(Input::has('code')){
 
-            dd($user);
+            $instagram->storeSession();
+            $user = $instagram->getUser();
+            return $user;
         }
         else{
             return $instagram->getRedirectURL();

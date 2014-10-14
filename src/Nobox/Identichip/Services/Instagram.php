@@ -13,7 +13,7 @@ use \Config;
 use \Log;
 use \Redirect;
 use \Session;
-
+use \Input;
 
 class Instagram {
 
@@ -23,27 +23,25 @@ class Instagram {
     public function __construct()
     {
         $this->config = Config::get('identichip::consumers.Instagram');
-
-        $auth_config = array(
-            $this->config['client_id'],
-            $this->config['client_secret']
-        );
-
-        $this->auth = new Instagram\Auth( $auth_config );
+        $this->connection = new \Instagram\Auth( $this->config );
     }
 
 
     public function getRedirectURL()
     {
-        return $this->auth->authorize();
+        return $this->connection->authorize();
     }
 
 
+    public function storeSession()
+    {
+        Session::put('instagram_access_token',$this->connection->getAccessToken( Input::get('code') ));
+    }
 
 
     public function getUser()
     {
-        $instagram = new Instagram\Instagram;
+        $instagram = new \Instagram\Instagram;
         $instagram->setAccessToken( Session::get('instagram_access_token') );
         $current_user = $instagram->getCurrentUser();
 
