@@ -113,7 +113,7 @@ class Identichip{
                     'email'         => $result->getProperty('email'),
             );
 
-            $data['avatar'] = '//graph.facebook.com/'.$data['service_id'].'/picture';
+            $data['avatar'] = '//graph.facebook.com/'.$data['service_id'].'/picture?width=200&height=200';
 
             Session::put('service_info', $data);
             return Redirect::to($redirect);
@@ -144,13 +144,15 @@ class Identichip{
             else{
                 $avatar = $result->profile_image_url;
             }
+
+            $final_avatar = str_replace('_normal', '', $avatar);
             $data = array(
                     'service_id'    => $result->id,
                     'name'          => 'twitter',
                     'first_name'    => $result->name,
                     'last_name'     => '',
                     'email'         => '',
-                    'avatar'        => $avatar
+                    'avatar'        => $final_avatar
             );
 
             Session::put('service_info', $data);
