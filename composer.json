@@ -26,7 +26,8 @@
         "illuminate/support": "4.2.*",
         "facebook/php-sdk-v4" : "4.0.*",
         "kertz/twitteroauth": "dev-master",
-        "google/apiclient": "dev-master"
+        "google/apiclient": "dev-master",
+        "php-instagram-api/php-instagram-api": "dev-master"
     },
     "autoload": {
         "classmap": [

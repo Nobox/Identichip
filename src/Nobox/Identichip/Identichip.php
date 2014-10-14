@@ -224,6 +224,21 @@ class Identichip{
     }
 
 
+    public function instagramLogin()
+    {
+
+        $instagram = new Instagram;
+
+        if(Session::has('instagram_access_token')){
+            $user = $instagram->getUser();
+
+            dd($user);
+        }
+        else{
+            return $instagram->getRedirectURL();
+        }
+    }
+
 
    /**
     *   Use a registered service to auth the
