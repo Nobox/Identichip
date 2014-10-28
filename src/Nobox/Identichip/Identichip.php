@@ -111,6 +111,7 @@ class Identichip{
                     'first_name'    => $result->getFirstName(),
                     'last_name'     => $result->getLastName(),
                     'email'         => $result->getProperty('email'),
+                    'access_token'  => $session,
             );
 
             $data['avatar'] = '//graph.facebook.com/'.$data['service_id'].'/picture?width=200&height=200';
