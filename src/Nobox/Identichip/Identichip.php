@@ -148,12 +148,14 @@ class Identichip{
 
             $final_avatar = str_replace('_normal', '', $avatar);
             $data = array(
-                    'service_id'    => $result->id,
-                    'name'          => 'twitter',
-                    'first_name'    => $result->name,
-                    'last_name'     => '',
-                    'email'         => '',
-                    'avatar'        => $final_avatar
+                    'service_id'           => $result->id,
+                    'name'                 => 'twitter',
+                    'first_name'           => $result->name,
+                    'last_name'            => '',
+                    'email'                => '',
+                    'avatar'               => $final_avatar,
+                    'access_token'         => $token,
+                    'access_token_secret'  => $secret
             );
 
             Session::put('service_info', $data);
