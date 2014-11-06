@@ -252,7 +252,6 @@ class Identichip{
     */
     public function loginWithService($service_id)
     {
-        echo $service_id;
         $service = Service::where('service_id', $service_id)->first();
 
 
