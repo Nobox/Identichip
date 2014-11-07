@@ -155,7 +155,8 @@ class Identichip{
                     'email'                => '',
                     'avatar'               => $final_avatar,
                     'access_token'         => $token,
-                    'access_token_secret'  => $secret
+                    'access_token_secret'  => $secret,
+                    'handle'               => $result->screen_name,
             );
 
             Session::put('service_info', $data);
