@@ -157,6 +157,7 @@ class Identichip{
                     'access_token'         => $token,
                     'access_token_secret'  => $secret,
                     'handle'               => $result->screen_name,
+                    'verifier'             => $verifier
             );
 
             Session::put('service_info', $data);
