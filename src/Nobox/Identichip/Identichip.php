@@ -26,9 +26,10 @@ class Identichip{
    /**
     * Perform user registration into DB
     * @param array $newUser from user registration form
+    * @param mixed value $users_info default is false if not is an object
     * @return mixed values : true if all good | object errors
     */
-    public static function register($newUser)
+    public static function register($newUser, $users_info = false)
     {
         $user = new User();
         $user->email = $newUser['email'];
@@ -47,6 +48,12 @@ class Identichip{
         if(!$user->isValid())
         {
             self::$errors = $user->errors;
+            return false;
+        }
+
+        if($users_info && !$users_info->isValid())
+        {
+            self::$errors = $users_info->errors;
             return false;
         }
 
