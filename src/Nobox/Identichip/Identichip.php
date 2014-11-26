@@ -142,6 +142,13 @@ class Identichip{
         $token = Session::pull('token');
         $secret = Session::pull('secret');
         $verifier = Input::get('oauth_verifier');
+
+        // if user cancel app authorization
+        // return to the app
+        if(Input::has('denied')){
+            return Redirect::to($redirect);
+        }
+
         if(isset($token)){
             $twitter->getUser($token, $secret, $verifier);
             $result = $twitter->doTwitterRequest('get', 'account/verify_credentials');
