@@ -25,7 +25,7 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
     protected $hidden = array('password', 'remember_token');
 
         public static $rules = array(
-        'first_name'    => 'Required|Alpha',
+        'first_name'    => 'Required',
         'last_name'     => 'Required',
         'email'         => 'Required|Between:3,64|Email|Unique:users',
     );
